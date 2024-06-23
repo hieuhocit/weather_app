@@ -78,6 +78,7 @@ function nextForecast(e, times = 1) {
 function changeForecast(e) {
   const isDaily = e.target.id === 'daily' ? true : false;
   init(null, null, isDaily);
+  lastIndexSlide = 0;
 }
 
 function changeLocation(e) {
