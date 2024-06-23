@@ -46,6 +46,7 @@ let next24Hours;
 let next7Days;
 let prevUnit;
 let isDaily = true;
+let isRequestFailed = false;
 const dayOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
 export default async function ({ query, unit, isDailyForecast }) {
@@ -63,13 +64,16 @@ export default async function ({ query, unit, isDailyForecast }) {
     if(query) {
       const data = await getFutureWeather({ query });
   
-      if (!data) throw new Error('Some thing went wrong!');
-  
-      location = data.location;
-      current = { ...data.current, ...data.forecast.forecastday[0] };
-      forecast = data.forecast.forecastday; // 8 days including current and 7 next days
-      next24Hours = getNext24Hours(new Date(), forecast);
-      next7Days = data.forecast.forecastday.slice(1);
+      if(data) {
+        location = data.location;
+        current = { ...data.current, ...data.forecast.forecastday[0] };
+        forecast = data.forecast.forecastday; // 8 days including current and 7 next days
+        next24Hours = getNext24Hours(new Date(), forecast);
+        next7Days = data.forecast.forecastday.slice(1);
+        isRequestFailed = false;
+      }else {
+        isRequestFailed = true;
+      }
     }
 
     // console.log(current);
@@ -93,6 +97,7 @@ export default async function ({ query, unit, isDailyForecast }) {
           temperature: unit === 'C' ? current.temp_c : current.temp_f,
           unit,
           imgUrl: current.condition.icon,
+          isRequestFailed
         })}
         <div class="weather-details-container">
           ${WeatherDetail({unit: `°${unit}`, iconUrl: thermo, label: 'Feels like', data: unit === 'C' ? current.feelslike_c : current.feelslike_f})}

@@ -62,9 +62,15 @@ function getEndOfWeek(date) {
 }
 
 async function getDataWeather(url) {
-  const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
-  const data = await response.json();
-  return data;
+  try {
+    const response = await fetch(url, { mode: 'cors', credentials: 'omit' });
+    if(!response.ok) throw new Error(response.statusText);
+    const data = await response.json();
+    return data;
+  }catch(err){
+    console.log(err);
+  }
+  return null;
 }
 
 export { getHistoryWeather, getFutureWeather };

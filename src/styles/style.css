@@ -105,6 +105,16 @@ body {
   right: 0;
 }
 
+.error-message {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  left: 0;
+  bottom: 0;
+  transform: translateY(calc(100% + 0.5rem));
+  font-size: calc(var(--font-size-s) - 0.15rem);
+  font-style: italic;
+}
+
 /* Weather details container  */
 .weather-details-container {
   display: flex;
@@ -328,3 +338,4 @@ body {
     justify-content: center;
   }
 }
+

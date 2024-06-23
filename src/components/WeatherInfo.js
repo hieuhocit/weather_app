@@ -6,6 +6,7 @@ export default function ({
   temperature,
   unit,
   imgUrl,
+  isRequestFailed,
 }) {
   return `
     <div class="weather-info">
@@ -21,7 +22,9 @@ export default function ({
       <form class="search-box">
         <input type="text" name="location" placeholder="Search Location..." autocomplete="off"/>
         <button type="submit">🔍</button>
+        ${isRequestFailed ? '<div class="error-message">❌ No matching location found</div>' : ''}
       </form>
+      
     </div>
   `;
 }
