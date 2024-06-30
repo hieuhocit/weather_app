@@ -34,7 +34,7 @@ async function getFutureWeather({ currentDate, query }) {
     //   distanceToSunday + 1
     // }`;
 
-    const url = `https://api.weatherapi.com/v1/forecast.json?key=f8377cc9b4694cdd9f632519241406&q=${query}&days=8`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=3eed0a761b22414b8a860430243006&q=${query}&days=8`;
 
     const data = await getDataWeather(url);
     if (!data) throw new Error('Failed to get weather data');

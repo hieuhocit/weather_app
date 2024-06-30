@@ -10,7 +10,22 @@ loading.appendChild(img);
 const app = document.querySelector('#app');
 let lastIndexSlide = 0;
 
-init('vietnam', 'C', null);
+navigator.geolocation.getCurrentPosition(success, error, {
+  enableHighAccuracy: true,
+  timeout: 5000,
+  maximumAge: 0,
+});
+
+function success(pos) {
+  const crd = pos.coords;
+  const userPosition = `${crd.latitude},${crd.longitude}`;
+  init(userPosition, 'C', null);
+}
+
+function error(err) {
+  init('vietnam', 'C', null);
+  console.warn(`ERROR(${err.code}): ${err.message}`);
+}
 
 function init(query, unit, isDailyForecast) {
   App({ query, unit, isDailyForecast }).then((html) => {
@@ -37,16 +52,16 @@ function addEvents() {
   prevBtn.addEventListener('click', prevForecast);
 
   navContainer.addEventListener('click', (e) => {
-    if(!e.target.dataset.index) return;
+    if (!e.target.dataset.index) return;
     const currentIndexSlide = e.target.dataset.index;
-    if(currentIndexSlide > lastIndexSlide) nextForecast(e,currentIndexSlide - lastIndexSlide);
-    else prevForecast(e,lastIndexSlide - currentIndexSlide);
+    if (currentIndexSlide > lastIndexSlide) nextForecast(e, currentIndexSlide - lastIndexSlide);
+    else prevForecast(e, lastIndexSlide - currentIndexSlide);
   });
 }
 
 function removeActive() {
   const navContainer = document.querySelector('.dots-container');
-  [...navContainer.children].forEach(dot => dot.classList.remove('active'));
+  [...navContainer.children].forEach((dot) => dot.classList.remove('active'));
 }
 
 function prevForecast(e, times = 1) {
@@ -56,7 +71,7 @@ function prevForecast(e, times = 1) {
     left: -forecastContainer.offsetWidth * times,
     behavior: 'smooth',
   });
-  if(lastIndexSlide === 0) return;
+  if (lastIndexSlide === 0) return;
   removeActive();
   lastIndexSlide -= times;
   navContainer.children[lastIndexSlide].classList.add('active');
@@ -69,7 +84,7 @@ function nextForecast(e, times = 1) {
     left: forecastContainer.offsetWidth * times,
     behavior: 'smooth',
   });
-  if(lastIndexSlide + 1 === navContainer.children.length) return;
+  if (lastIndexSlide + 1 === navContainer.children.length) return;
   removeActive();
   lastIndexSlide += times;
   navContainer.children[lastIndexSlide].classList.add('active');
