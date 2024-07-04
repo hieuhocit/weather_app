@@ -42,8 +42,17 @@ npm start
 ## Contribution
 **Team Members**
 - Trần Trung Hiếu: 40%
+  * UI Design
+  * UI Development
+  * API Integration
+    
 - Trần Tiến Đạt: 30%
+  * Analysis & Design
+  * Project Management Tools
+
 - Nguyễn An Phú: 30%
+  * User Story
+  * Testing
 
 
 ## Acknowledgements
